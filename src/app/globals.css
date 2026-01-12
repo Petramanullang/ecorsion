@@ -1,0 +1,630 @@
+@import "tailwindcss";
+
+/* ======================================================
+   TOKENS
+====================================================== */
+:root {
+  --navH: 76px;
+
+  --paper: #fffdf6;
+  --ink: #0a0a0a;
+
+  --neon-cyan: #20e3ff;
+  --neon-lime: #b9ff37;
+  --neon-pink: #ff4fd8;
+  --neon-yellow: #ffe24a;
+  --neon-orange: #ff8a3d;
+  --neon-purple: #8c5bff;
+
+  --sh: 6px;
+  --shSm: 4px;
+}
+
+::selection {
+  background: var(--neon-lime);
+  color: var(--ink);
+}
+
+/* ======================================================
+   SCROLLBAR + BASE
+====================================================== */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  overscroll-behavior: none;
+}
+
+/* ======================================================
+   GLOBAL GRID BACKGROUND (fixed) + NOISE
+====================================================== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+
+/* pastikan semua konten di atas grid */
+#__next,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================================================
+   HELPERS
+====================================================== */
+.scroll-anchor {
+  scroll-margin-top: calc(var(--navH) + 18px);
+}
+
+/* Bab cards punya sticky HUD (mini-progress) di atasnya,
+   jadi butuh margin lebih besar supaya judul tidak ketutup */
+.nj-chapter.scroll-anchor {
+  scroll-margin-top: calc(var(--navH) + 120px);
+}
+
+.sticky-under-nav {
+  top: calc(var(--navH) + 10px);
+}
+
+.safe-bottom {
+  padding-bottom: 140px;
+}
+
+/* ======================================================
+   CUSTOM UTILITIES (biar Tailwind gak "unknown class")
+====================================================== */
+.border-ink {
+  border-color: var(--ink);
+}
+.text-ink {
+  color: var(--ink);
+}
+
+.bg-paper {
+  background: var(--paper);
+}
+
+.bg-ink {
+  background: var(--ink);
+}
+.bg-neon-cyan {
+  background: var(--neon-cyan);
+}
+.bg-neon-lime {
+  background: var(--neon-lime);
+}
+.bg-neon-pink {
+  background: var(--neon-pink);
+}
+.bg-neon-yellow {
+  background: var(--neon-yellow);
+}
+.bg-neon-orange {
+  background: var(--neon-orange);
+}
+.bg-neon-purple {
+  background: var(--neon-purple);
+}
+
+.shadow-brutal {
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.shadow-brutalSm {
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+/* ======================================================
+   NEOBRUTAL PRIMITIVES (ANTI FLICKER)
+   - satu sistem: box-shadow (stabil, gak bikin item jadi hitam)
+====================================================== */
+.brutal-card,
+.brutal-card-sm,
+.brutal-btn,
+.tape,
+.sticker,
+.marqueeWrap,
+.mini-bar,
+.dot,
+.shard,
+.ribbon {
+  border: 3px solid var(--ink);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cards */
+.brutal-card {
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 0 var(--ink);
+  background: rgba(255, 255, 255, 0.86);
+}
+.brutal-card-sm {
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 var(--ink);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+/* Buttons */
+.brutal-btn {
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 0 var(--ink);
+
+  /* DEFAULT surface biar gak pernah “tiba-tiba hitam” */
+  background: var(--paper);
+
+  padding: 10px 14px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  will-change: transform;
+}
+
+/* kalau kamu kasih bg-neon-* di button, ini pasti menang */
+.brutal-btn.bg-paper {
+  background: var(--paper);
+}
+
+.bg-ink {
+  background: var(--ink);
+}
+.brutal-btn.bg-neon-cyan {
+  background: var(--neon-cyan);
+}
+.brutal-btn.bg-neon-lime {
+  background: var(--neon-lime);
+}
+.brutal-btn.bg-neon-pink {
+  background: var(--neon-pink);
+}
+.brutal-btn.bg-neon-yellow {
+  background: var(--neon-yellow);
+}
+.brutal-btn.bg-neon-orange {
+  background: var(--neon-orange);
+}
+.brutal-btn.bg-neon-purple {
+  background: var(--neon-purple);
+}
+
+/* Hover overlay */
+.brutal-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  filter: brightness(0.99);
+}
+.brutal-btn:hover::after {
+  opacity: 1;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 var(--ink);
+}
+
+/* ======================================================
+   SHAPES / EDITORIAL
+====================================================== */
+.cut-corner {
+  clip-path: polygon(0 0, 92% 0, 100% 20%, 100% 100%, 0 100%);
+}
+.cut-corner2 {
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 86% 100%, 0 100%);
+}
+
+/* jangan biarkan clip-path nge-clip border/shadow */
+.cut-corner2,
+.torn {
+  overflow: visible !important;
+}
+
+.torn {
+  position: relative;
+}
+.torn::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: -14px;
+  height: 30px;
+  background: radial-gradient(
+      circle at 10px 18px,
+      rgba(0, 0, 0, 1) 6px,
+      transparent 7px
+    )
+    0 0/28px 28px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.wavy {
+  height: 20px;
+  background: radial-gradient(
+      circle at 12px 10px,
+      rgba(0, 0, 0, 1) 7px,
+      transparent 8px
+    )
+    0 0/30px 20px;
+  opacity: 0.16;
+}
+
+/* Badges */
+.sticker {
+  box-shadow: 4px 4px 0 0 var(--ink);
+  background: var(--neon-yellow);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transform: rotate(-2deg);
+}
+
+.tape {
+  box-shadow: 4px 4px 0 0 var(--ink);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  padding: 8px 10px;
+  display: inline-block;
+  transform: rotate(2deg);
+}
+
+/* Marquee */
+.marqueeWrap {
+  box-shadow: 6px 6px 0 0 var(--ink);
+  border-radius: 18px;
+  background: var(--neon-yellow);
+  overflow: hidden;
+}
+.marqueeTrack {
+  display: flex;
+  width: 200%;
+  animation: marquee 12s linear infinite;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Ornaments */
+.shard {
+  box-shadow: 6px 6px 0 0 var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  clip-path: polygon(10% 0%, 95% 6%, 100% 60%, 84% 100%, 0% 92%, 0% 26%);
+  border-radius: 18px;
+}
+
+.ribbon {
+  box-shadow: 4px 4px 0 0 var(--ink);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 8px 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  transform: skewX(-8deg);
+}
+
+/* ======================================================
+   MINIMAL PROGRESS (Sticky top)
+====================================================== */
+.mini-progress {
+  position: sticky;
+  top: calc(var(--navH) + 8px);
+  z-index: 40;
+}
+
+.mini-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  overflow: hidden;
+}
+
+.mini-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--neon-lime), var(--neon-cyan));
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 0 var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  transition: transform 0.16s ease, filter 0.16s ease;
+}
+.dot:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.98);
+}
+.dot.active {
+  background: var(--neon-yellow);
+}
+.dot.done {
+  background: var(--neon-lime);
+}
+
+/* ======================================================
+   ANIM HELPERS
+====================================================== */
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(12px, -10px) rotate(6deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+.doodle {
+  animation: drift 4.2s ease-in-out infinite;
+  filter: drop-shadow(4px 4px 0 #000);
+}
+.glow {
+  filter: drop-shadow(0 0 22px rgba(32, 227, 255, 0.25));
+}
+
+/* ======================================================
+   FRAME SYSTEM (buat wrapper besar)
+====================================================== */
+.brutal-frame {
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  overflow: visible;
+}
+
+.brutal-surface {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.brutal-surface.cut-corner2 {
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 86% 100%, 0 100%);
+}
+
+/* ======================================================
+   ✅ TAMPER / FIX: kalau masih ada CSS lain yang pakai
+   ::before/::after shadow hitam, MATIKAN TOTAL di sini
+====================================================== */
+.brutal-frame::before,
+.brutal-frame::after,
+.brutal-card::before,
+.brutal-card::after,
+.brutal-card-sm::before,
+.brutal-card-sm::after,
+.brutal-btn::before,
+.brutal-btn::after,
+.dot::before,
+.dot::after,
+.mini-bar::before,
+.mini-bar::after,
+.tape::before,
+.tape::after,
+.sticker::before,
+.sticker::after,
+.marqueeWrap::before,
+.marqueeWrap::after,
+.shard::before,
+.shard::after,
+.ribbon::before,
+.ribbon::after {
+  /* biarkan brutal-btn::after overlay tetap jalan */
+}
+
+/* khusus brutal-btn, kita hanya pastikan ::before gak pernah dipakai */
+.brutal-btn::before {
+  content: none !important;
+}
+
+/* untuk elemen lain: kalau ada pseudo-element shadow dari file lain, kill */
+.brutal-frame::before,
+.brutal-card::before,
+.brutal-card-sm::before,
+.dot::before,
+.mini-bar::before,
+.tape::before,
+.sticker::before,
+.marqueeWrap::before,
+.shard::before,
+.ribbon::before {
+  content: none !important;
+  background: none !important;
+  transform: none !important;
+}
+
+/* =========================
+   RIGHT PROGRESS RAIL (DESKTOP)
+========================= */
+.nj-rail {
+  position: relative;
+  width: 14px;
+  height: 180px;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  overflow: hidden;
+}
+
+.nj-rail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  border-radius: inherit;
+  transform: translate(var(--shSm), var(--shSm));
+}
+
+.nj-rail-fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(to top, var(--neon-lime), var(--neon-cyan));
+  border-radius: 999px;
+}
+
+.nj-rail-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 3px solid var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nj-rail-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  border-radius: inherit;
+  transform: translate(3px, 3px);
+}
+
+.nj-rail-dot.active {
+  background: var(--neon-yellow);
+}
+
+.nj-rail-dot.done {
+  background: var(--neon-lime);
+}
+
+/* =========================
+   MOBILE MINIMAL PROGRESS
+========================= */
+.nj-mini-rail {
+  height: 8px; /* tipis */
+  border-radius: 999px;
+}
+
+/* ======================================================
+   MOBILE TUNING (Responsive polish)
+====================================================== */
+@media (max-width: 640px) {
+  :root {
+    --navH: 68px;
+  }
+
+  .safe-bottom {
+    padding-bottom: 160px;
+  }
+
+  .brutal-btn {
+    padding: 8px 10px;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+  }
+
+  .sticker {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .tape {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+
+  .marqueeTrack > div {
+    font-size: 12px;
+  }
+
+  .mini-progress {
+    top: calc(var(--navH) + 6px);
+  }
+
+  .mini-bar {
+    height: 8px;
+  }
+
+  .tape {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .nj-chapter.scroll-anchor {
+    scroll-margin-top: calc(var(--navH) + 18px);
+  }
+}
+
+/* di layar sangat besar (2xl), progress HUD di atas disembunyikan,
+   jadi margin extra 120px bikin "lompat" terlalu jauh */
+@media (min-width: 1536px) {
+  .nj-chapter.scroll-anchor {
+    scroll-margin-top: calc(var(--navH) + 18px);
+  }
+}
+
+.sticky-under-nav {
+  top: calc(var(--navH) + 10px);
+}
