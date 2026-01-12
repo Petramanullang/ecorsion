@@ -10,7 +10,8 @@ function NavLinkBtn({ href, active, children, onClick }) {
       href={href}
       onClick={onClick}
       className={[
-        "brutal-btn inline-flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm w-full sm:w-auto justify-start sm:justify-center",
+        "brutal-btn inline-flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm",
+        "w-full sm:w-auto justify-start sm:justify-center",
         active ? "bg-neon-lime" : "bg-paper",
       ].join(" ")}
     >
@@ -56,8 +57,8 @@ export default function SiteNav() {
   const headerRef = useRef(null);
   const [open, setOpen] = useState(false);
 
-  // ✅ update --navH dari tinggi navbar (HANYA header utama)
-  // Mobile menu dibuat overlay di luar header, supaya --navH stabil.
+  // ✅ Stabilkan --navH dari tinggi header
+  // NOTE: Jangan listen visualViewport scroll (mobile chrome address bar bikin jitter)
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
@@ -68,8 +69,8 @@ export default function SiteNav() {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const rect = el.getBoundingClientRect();
-        const navBottom = Math.ceil(rect.bottom);
-        document.documentElement.style.setProperty("--navH", `${navBottom}px`);
+        const navH = Math.max(0, Math.ceil(rect.height));
+        document.documentElement.style.setProperty("--navH", `${navH}px`);
         window.dispatchEvent(new Event("navheightchange"));
       });
     };
@@ -78,14 +79,12 @@ export default function SiteNav() {
     window.addEventListener("resize", setVar);
     window.addEventListener("orientationchange", setVar);
     window.visualViewport?.addEventListener("resize", setVar);
-    window.visualViewport?.addEventListener("scroll", setVar);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", setVar);
       window.removeEventListener("orientationchange", setVar);
       window.visualViewport?.removeEventListener("resize", setVar);
-      window.visualViewport?.removeEventListener("scroll", setVar);
     };
   }, []);
 
@@ -94,14 +93,12 @@ export default function SiteNav() {
     setOpen(false);
   }, [p]);
 
-  // ✅ UX: lock scroll + ESC to close
+  // ✅ lock scroll + ESC
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
@@ -113,14 +110,19 @@ export default function SiteNav() {
     <header
       ref={headerRef}
       data-site-nav
-      className="fixed top-2 left-2 right-2 sm:top-3 sm:left-3 sm:right-3 z-50"
+      // ✅ Mobile: sticky (anti kepotong). sm+: fixed (tetap floating)
+      className={[
+        "z-50",
+        "sticky top-0", // mobile aman
+        "sm:fixed sm:top-3 sm:left-3 sm:right-3", // desktop floating
+        "px-2 pt-2 sm:px-0 sm:pt-0", // spacing untuk sticky top
+      ].join(" ")}
       style={{ pointerEvents: "none" }}
     >
       <div
         className="mx-auto max-w-6xl brutal-frame bg-paper px-3 py-2 sm:px-4 sm:py-3"
         style={{ pointerEvents: "auto" }}
       >
-        {/* TOP ROW */}
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           <Link href="/" className="flex items-center gap-3">
             <div className="brutal-card-sm bg-neon-cyan px-3 py-2 font-black">
@@ -135,7 +137,6 @@ export default function SiteNav() {
             </div>
           </Link>
 
-          {/* DESKTOP NAV */}
           <nav className="hidden sm:flex gap-2 flex-nowrap justify-end">
             <NavLinkBtn href="/" active={isHome}>
               Landing
@@ -145,7 +146,6 @@ export default function SiteNav() {
             </NavLinkBtn>
           </nav>
 
-          {/* MOBILE HAMBURGER */}
           <button
             className="sm:hidden brutal-btn bg-paper px-3 py-2"
             onClick={() => setOpen((v) => !v)}
@@ -157,7 +157,7 @@ export default function SiteNav() {
         </div>
       </div>
 
-      {/* MOBILE OVERLAY MENU (doesn't affect header height) */}
+      {/* MOBILE OVERLAY MENU */}
       {open && (
         <div
           className="fixed inset-0 z-[60] sm:hidden"
