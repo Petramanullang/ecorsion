@@ -9,7 +9,7 @@ const computeImpactScore = (replaceEveryYears, intensityPct) => {
 
 function HowTo({ title, steps, color = "bg-neon-yellow" }) {
   return (
-    <div className={`brutal-card-sm p-4 ${color} cut-corner2`}>
+    <div className={`brutal-card-sm p-4 ${color}`}>
       <div className="text-xs font-black uppercase tracking-widest">
         Cara Pakai
       </div>
@@ -41,7 +41,7 @@ export function MiniAssembler() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="brutal-card p-5 bg-paper torn cut-corner">
+      <div className="brutal-card p-5 bg-paper torn">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="font-black uppercase tracking-widest text-sm">
@@ -59,7 +59,15 @@ export function MiniAssembler() {
             <div className="text-xs font-black uppercase tracking-widest">
               Status
             </div>
-            <div className="font-black">{done ? "SELESAI ✅" : "PROSES"}</div>
+
+            <div
+              className={[
+                "font-black",
+                done ? "text-green-500" : "text-blue-500",
+              ].join(" ")}
+            >
+              {done ? "SELESAI" : "PROSES"}
+            </div>
           </div>
         </div>
 
@@ -100,7 +108,7 @@ export function MiniAssembler() {
         title="Game Rakit Baterai"
         steps={[
           "Klik setiap kotak sampai semuanya menyala.",
-          "Perhatikan status berubah jadi SELESAI ✅.",
+          "Perhatikan status berubah jadi SELESAI.",
           "Setelah selesai, lanjut scroll ke simulator dampak.",
         ]}
         color="bg-neon-yellow"
@@ -132,7 +140,7 @@ export function ImpactDial({ onMood }) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="brutal-card p-5 bg-paper cut-corner2">
+      <div className="brutal-card p-5 bg-paper">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="font-black uppercase tracking-widest text-sm">
@@ -270,7 +278,7 @@ export function ChoiceChips({ onPick }) {
         steps={[
           "Klik salah satu tombol solusi.",
           "Baca ‘Hasil Pilihan’ yang muncul.",
-          "Gunakan ini sebagai bahan ngomong di booth: ‘Menurut kamu paling realistis yang mana?’",
+          "‘Menurut kamu paling realistis yang mana?’",
         ]}
         color="bg-neon-cyan"
       />

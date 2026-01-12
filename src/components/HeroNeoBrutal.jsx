@@ -43,12 +43,12 @@ export default function HeroNeoBrutal({ mood, onStart }) {
           {/* Editorial grid */}
           <div className="mt-4 grid gap-4 md:grid-cols-12">
             {/* Headline */}
-            <div className="relative md:col-span-7 brutal-card p-5 sm:p-6 bg-paper cut-corner torn overflow-hidden">
+            <div className="relative md:col-span-7 brutal-card p-5 sm:p-6 bg-paper torn overflow-hidden">
               <motion.div
                 initial={{ opacity: 0, y: 12, rotate: -6 }}
                 animate={{ opacity: 1, y: 0, rotate: -6 }}
                 transition={{ duration: 0.6 }}
-                className="absolute -top-6 right-6 sticker"
+                className="absolute top-6 right-6 sticker"
               >
                 STOP & MAININ
               </motion.div>
@@ -58,14 +58,14 @@ export default function HeroNeoBrutal({ mood, onStart }) {
                 <br />
                 dari{" "}
                 <span className="inline-block bg-neon-cyan border-ink border-3 shadow-brutalSm px-3 rotate-[-1deg]">
-                  Mobil Listrik
+                  Nikel Ore
                 </span>
               </h1>
 
               <p className="mt-4 text-lg md:text-xl max-w-[58ch]">
                 EV terlihat hijau. Tapi baterainya butuh nikel. Di sini kamu
                 lihat <b>trade-off ekonomi vs lingkungan</b> lewat{" "}
-                <b>scroll quest interaktif</b> — bukan baca doang.
+                <b>scroll quest interaktif</b> ~ bukan baca doang.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -97,7 +97,7 @@ export default function HeroNeoBrutal({ mood, onStart }) {
 
             {/* Collage image panel */}
             <div className="md:col-span-5 grid gap-4">
-              <div className="relative brutal-card overflow-hidden p-0 cut-corner2">
+              <div className="relative brutal-card overflow-hidden p-0">
                 <div className="absolute left-4 top-4 sticker">
                   <span className="h-3 w-3 bg-neon-pink border-ink border-3 shadow-brutalSm" />
                   NIKEL ORE
@@ -114,7 +114,7 @@ export default function HeroNeoBrutal({ mood, onStart }) {
 
                 {/* Ganti ini dengan foto kamu */}
                 <Image
-                  src="/images/nickel-ore.jpg"
+                  src="/images/nickel-ore.png"
                   alt="Bijih nikel"
                   width={900}
                   height={600}
@@ -122,7 +122,7 @@ export default function HeroNeoBrutal({ mood, onStart }) {
                   priority
                 />
 
-                <div className="border-t-3 border-ink grid grid-cols-3">
+                <div className="border-t-3 border-b-3 border-ink grid grid-cols-3">
                   <div className="p-4 border-r-3 border-ink bg-paper">
                     <div className="text-xs font-black uppercase tracking-widest opacity-70">
                       Bab
@@ -145,13 +145,13 @@ export default function HeroNeoBrutal({ mood, onStart }) {
               </div>
 
               {/* Second collage card */}
-              <div className="relative brutal-card p-0 overflow-hidden torn">
+              <div className="relative brutal-card pb-0 overflow-hidden torn">
                 <Image
-                  src="/images/ev.jpg"
+                  src="/images/electric-car.png"
                   alt="Mobil listrik"
                   width={900}
                   height={600}
-                  className="h-[180px] sm:h-[210px] w-full object-cover"
+                  className="h-[180px] sm:h-[300px] w-full object-cover "
                 />
                 <div className="absolute bottom-4 left-4 tape">
                   “EV hijau di jalan, tapi hulunya?”
@@ -166,7 +166,7 @@ export default function HeroNeoBrutal({ mood, onStart }) {
             <div className="md:col-span-5 brutal-card p-5 bg-paper rotate-[-0.5deg] torn">
               <div className="text-5xl font-black leading-none">“</div>
               <p className="mt-2 text-lg">
-                Website ini memecahkan masalah “misinformasi EV” dengan demo
+                Website ini memecahkan masalah “misinformasi EV” dengan
                 interaktif: kamu melihat rantai pasok nikel secara utuh.
               </p>
               <div className="mt-4 tape inline-block">

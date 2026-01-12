@@ -35,7 +35,7 @@ export default function ImageCard({ src, alt, label }) {
         width={1200}
         height={800}
         sizes="(max-width: 768px) 100vw, 40vw"
-        className="h-[180px] sm:h-[240px] lg:h-[260px] w-full object-cover"
+        className="h-[180px] sm:h-[240px] lg:h-[260px] w-full object-cover rounded-xl"
         onError={() => setFailed(true)}
       />
       {label ? (

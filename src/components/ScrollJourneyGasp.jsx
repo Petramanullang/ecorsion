@@ -80,9 +80,9 @@ export default function ScrollJourneyGasp({ onMood }) {
         title: "EV terlihat hijau. Tapi hulunya… ada nikel.",
         body: "Kamu ikut petualangan dari nikel ditambang sampai jadi baterai—lalu pilih solusi yang realistis. Ada game + simulator biar pengunjung betah.",
         img: {
-          src: "/images/nickel-ore.jpg",
+          src: "/images/nickel-ore.png",
           alt: "Bijih nikel",
-          label: "Gambar Nikel (Bijih Nikel)",
+          label: "Nikel (Bijih Nikel)",
         },
       },
       {
@@ -92,7 +92,7 @@ export default function ScrollJourneyGasp({ onMood }) {
         img: {
           src: "/images/nickel-mining.jpg",
           alt: "Tambang nikel",
-          label: "Gambar Tambang Nikel",
+          label: "Tambang Nikel",
         },
       },
       {
@@ -102,7 +102,7 @@ export default function ScrollJourneyGasp({ onMood }) {
         img: {
           src: "/images/smelter.jpg",
           alt: "Smelter",
-          label: "Gambar Pengolahan / Smelter",
+          label: "Pengolahan / Smelter",
         },
       },
       {
@@ -110,9 +110,9 @@ export default function ScrollJourneyGasp({ onMood }) {
         title: "Tambang → Olah → Baterai → EV",
         body: "Nilai tambah naik saat diolah. Tantangannya: efisiensi energi, limbah, dan transparansi rantai pasok.",
         img: {
-          src: "/images/battery-cells.jpg",
+          src: "/images/batterys.png",
           alt: "Baterai",
-          label: "Gambar Baterai (Cell / Pack)",
+          label: "Baterai (Cell / Pack)",
         },
       },
       {
@@ -127,20 +127,20 @@ export default function ScrollJourneyGasp({ onMood }) {
         body: "Geser kebiasaan upgrade & intensitas konsumsi. Lihat dampaknya berubah.",
         extra: "dial",
         img: {
-          src: "/images/ev.jpg",
+          src: "/images/electric-car.png",
           alt: "EV",
-          label: "Gambar Mobil Listrik",
+          label: "Mobil Listrik",
         },
       },
       {
         tag: "Bab 7 • Solusi",
         title: "Pilih 1 solusi realistis untuk unlock ending",
-        body: "Pilih satu solusi. Jadikan itu pesan utama booth kamu.",
+        body: "Pilih satu solusi.",
         extra: "choices",
         img: {
-          src: "/images/recycle.jpg",
+          src: "/images/battery-recycle-removebg.png",
           alt: "Recycle",
-          label: "Gambar Daur Ulang Baterai",
+          label: "Daur Ulang Baterai",
         },
       },
       {
@@ -169,7 +169,7 @@ export default function ScrollJourneyGasp({ onMood }) {
   const computeActiveLine = () => getNavH() + getHudH() + 18;
 
   // ===== CUSTOM FEEL DI SINI =====
-  const RAIL_REVEAL_FROM_BOTTOM_PX = 0; // 0 = Bab 1 mulai kelihatan
+  const RAIL_REVEAL_FROM_BOTTOM_PX = 650; // 0 = Bab 1 mulai kelihatan
   const ACTIVE_LINE_TWEAK = 0; // +20 telat, -20 cepat
   const LINE_EPS = 8;
 
@@ -523,14 +523,14 @@ export default function ScrollJourneyGasp({ onMood }) {
 
           <div className="brutal-frame bg-paper p-4 sm:p-5">
             <div className="tape text-xs font-black uppercase tracking-widest">
-              Penutup Booth
+              Penutup
             </div>
             <h4 className="mt-3 text-lg sm:text-xl font-black">
               Mau ending versi “terbaik”?
             </h4>
             <p className="mt-2 text-sm sm:text-base opacity-90">
-              Arahkan pengunjung untuk ulang Bab 7 (Solusi) dan coba pilihan
-              lain. Ini bikin booth terasa “punya replay value”.
+              Ulang Bab 7 (Solusi) dan coba pilihan
+              lain.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <span className="tape">Replay</span>
