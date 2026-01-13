@@ -1,5 +1,6 @@
 import "./globals.css";
 import SiteNav from "@/components/SiteNav";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "ECORSION - Nikel, Energi & Ekonomi",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="min-h-screen">
         <SiteNav />
         <div className="pt-4 sm:pt-[calc(var(--navH)+24px)]">{children}</div>
+        <SpeedInsights />
       </body>
     </html>
   );
