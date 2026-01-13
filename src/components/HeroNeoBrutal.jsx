@@ -192,7 +192,7 @@ export default function HeroNeoBrutal({ mood, onStart }) {
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 hidden sm:block">
           <MarqueeBar />
         </div>
       </div>
