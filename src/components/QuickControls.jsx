@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { scrollToId } from "@/lib/scrollToId";
+import Link from "next/link";
 
 // Auto-hide saat scroll turun, muncul lagi saat scroll naik / berhenti.
 export default function QuickControls() {
@@ -85,6 +86,9 @@ export default function QuickControls() {
               onClick={() => scrollToId("step-6", 18)}
             >
               Solusi
+            </button>
+            <button className="brutal-btn">
+              <Link href={"https://itpln.ac.id/"}>ITPLN</Link>
             </button>
           </div>
         </div>
